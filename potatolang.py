@@ -2,6 +2,8 @@ import random
 import math
 
 #findMatching function by Brain Damaged Senko#5942
+#everything else by CosmicMan08#1975
+
 def findMatching(code, index, start, stop):
     if code[index]==start:
         step=1
@@ -18,7 +20,7 @@ def findMatching(code, index, start, stop):
             depth-=1
     return index
 
-def asdflang(program, debug = False):
+def potatolang(program, debug = False):
     program = program.lower()
     memory = []
     pc = 0
@@ -143,4 +145,3 @@ def asdflang(program, debug = False):
                 pc = program[pc:].find(";")+1
         if debug == True: print(memory)
         pc += 1
-asdflang(input(), False)
