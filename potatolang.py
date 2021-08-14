@@ -143,5 +143,7 @@ def potatolang(program, debug = False):
                 memory.append(b)
             elif program[pc:pc+1] == "k":
                 pc = program[pc:].find(";")+1
+            elif program[pc:pc+1] == "'":
+                pc = program[pc:].find(":")+1
         if debug == True: print(memory)
         pc += 1
