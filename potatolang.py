@@ -71,8 +71,11 @@ def potatolang(program, debug = False):
                 memory.append(9)
             elif program[pc:pc+1] == "a":
                 memory.append(stackpop()+stackpop())
-            elif program[pc:pc+1] == "d":
-                memory.append(stackpop()/stackpop())
+            elif program[pc:pc+1] == "d" and len(memory) > 1:
+                try:
+                    memory.append(stackpop()/stackpop())
+                except ZeroDivisionError:
+                    return 0
             elif program[pc:pc+1] == "e":
                 memory.append(stackpop()**stackpop())
             elif program[pc:pc+1] == "p":
@@ -117,17 +120,29 @@ def potatolang(program, debug = False):
                 memory.append(place)
                 memory.append(place)
             elif program[pc:pc+1] == "w":
-                if memory[-1] != 0:
-                    pc = int(findMatching(program, pc, "w", ":"))
+                try:
+                    if memory[-1] != 0:
+                        pc = int(findMatching(program, pc, "w", ":"))
+                except IndexError:
+                    pc = len(program)
             elif program[pc:pc+1] == "f":
-                if memory[-1] == 0:
-                    pc = int(findMatching(program, pc, "f", ";"))
+                try:
+                    if memory[-1] == 0:
+                        pc = int(findMatching(program, pc, "f", ";"))
+                except IndexError:
+                    pc = len(program)
             elif program[pc:pc+1] == ":":
-                if memory[-1] == 0:
-                    pc = int(findMatching(program, pc, "w", ":"))
+                try:
+                    if memory[-1] == 0:
+                        pc = int(findMatching(program, pc, "w", ":"))
+                except IndexError:
+                    pc = len(program)
             elif program[pc:pc+1] == ";":
-                if memory[-1] != 0:
-                    pc = int(findMatching(program, pc, "f", ";"))
+                try:
+                    if memory[-1] != 0:
+                        pc = int(findMatching(program, pc, "f", ";"))
+                except IndexError:
+                    pc = len(program)
             elif program[pc:pc+1] == "x":
                 place = stackpop()
                 memory.append(memory[place])
@@ -147,3 +162,4 @@ def potatolang(program, debug = False):
                 pc = program[pc:].find(":")+1
         if debug == True: print(memory)
         pc += 1
+potatolang(input())
